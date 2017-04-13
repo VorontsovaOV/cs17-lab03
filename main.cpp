@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <sstream>
-
+#include <cassert>
 using namespace std;
 
 enum Scale
@@ -39,11 +39,29 @@ istream& operator >> (istream& in, Temperature& t)
 void test_temperature_input ()
 {
  // создать поток в памяти с примерами
-    istringstream in (-15K);
+    istringstream in ("-15K");
     //считать значение в переменную
     Temperature result;
     in >> result;
     //проверить значение шкалы
+    assert (result.value == -15);
+    assert (result.scale == Kelvin);
+
+    // создать поток в памяти с примерами
+    istringstream in_2 ("23F");
+    //считать значение в переменную
+    in_2 >> result;
+    //проверить значение шкалы
+    assert (result.value == 23);
+    assert (result.scale == Farenheit);
+
+    // создать поток в памяти с примерами
+    istringstream in_3 ("46C");
+    //считать значение в переменную
+    in_3 >> result;
+    //проверить значение шкалы
+    assert (result.value == 46);
+    assert (result.scale == Celsiy);
 }
 
 Temperature convert (const Temperature& t, Scale scale)
