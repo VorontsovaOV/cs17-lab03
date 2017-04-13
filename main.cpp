@@ -3,8 +3,24 @@
 
 using namespace std;
 
+enum Scale
+{
+    Kelvin,
+    Celsiy,
+    Farenheit
+};
+
+struct Temperature
+    {
+        double value;
+        Scale scale;
+    };
+
+Temperature t;
+
 int
 main() {
+
     size_t number_count;
     cerr << "Enter number count: ";
     cin >> number_count;
