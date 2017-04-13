@@ -94,6 +94,12 @@ Temperature convert (const Temperature& t, Scale scale)
         return result;
     }
 
+bool operator < (Temperature t1, Temperature t2) //истина t1<t2, ложь t1>=t2
+{
+    t1 = convert(t2,t1.scale);
+    return t1.value < t2.value;
+}
+
 int
 main() {
 
