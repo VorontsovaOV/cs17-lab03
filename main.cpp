@@ -100,6 +100,12 @@ bool operator < (Temperature t1, Temperature t2) //истина t1<t2, ложь 
     return t1.value < t2.value;
 }
 
+bool operator > (Temperature t1, Temperature t2) //истина t1>t2, ложь t1<=t2
+{
+    t1 = convert(t2,t1.scale);
+    return t1.value > t2.value;
+}
+
 int
 main() {
 
@@ -109,7 +115,7 @@ main() {
     cin >> number_count;
 
     cerr << "Enter numbers: ";
-    vector<double> numbers(number_count);
+    vector<Temperature> numbers(number_count);
     for (size_t i = 0; i < number_count; i++) {
         cin >> numbers[i];
     }
@@ -118,9 +124,9 @@ main() {
     cerr << "Enter column count: ";
     cin >> column_count;
 
-    double min = numbers[0];
-    double max = numbers[0];
-    for (double number : numbers) {
+    Temperature min = numbers[0];
+    Temperature max = numbers[0];
+    for (Temperature number : numbers) {
         if (number < min) {
             min = number;
         }
@@ -129,9 +135,13 @@ main() {
         }
     }
 
+    max = convert(max, min.scale);
+
     vector<size_t> counts(column_count);
-    for (double number : numbers) {
-        size_t column = (size_t)((number - min) / (max - min) * column_count);
+    for (Temperature number : numbers) {
+        number = convert(number, min.scale);
+        size_t column = (size_t)((number.value - min.value) / (max.value - min.value) *
+                column_count);
         if (column == column_count) {
             column--;
         }
