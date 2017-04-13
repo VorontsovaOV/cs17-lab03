@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <sstream>
 
 using namespace std;
 
@@ -35,8 +36,49 @@ istream& operator >> (istream& in, Temperature& t)
     return in;
 };
 
+void test_temperature_input ()
+{
+ // создать поток в памяти с примерами
+    istringstream in (-15K);
+    //считать значение в переменную
+    Temperature result;
+    in >> result;
+    //проверить значение шкалы
+}
+
+Temperature convert (const Temperature& t, Scale scale)
+    {double k;
+        switch (t.scale) {
+        case Kelvin :
+            k = t.value;
+            break;
+        case Celsiy :
+            k = t.value + 273;
+            break;
+        case Farenheit :
+            k = (t.value - 32)/1.8;
+            break;
+        }
+        Temperature result;
+        result.scale = scale;
+        switch (scale)
+        {
+        case Kelvin :
+            result.value = k;
+            break;
+        case Celsiy :
+            result.value = k + 273;
+            break;
+        case Farenheit :
+            result.value = 1.8*k + 32;
+            break;
+        }
+        return result;
+    }
+
 int
 main() {
+
 
     size_t number_count;
     cerr << "Enter number count: ";
