@@ -9,8 +9,19 @@ using namespace std;
 istream& operator >> (istream& in, Temperature& t)
 {
     in >> t.value;
+    if (!in) {
+        cout<<"\nValue error";
+        in.setstate(ios_base::failbit);
+        return in;
+    }
     char symbol;
     in >> symbol;
+    /*if ((symbol != 'K') && (symbol != 'C') && (symbol != 'F')) {
+
+      in.setstate(ios_base::failbit);
+      return in;
+    }
+    */
     switch (symbol) {
     case 'K' :
         t.scale = Kelvin;
@@ -21,6 +32,17 @@ istream& operator >> (istream& in, Temperature& t)
     case 'F' :
         t.scale = Farenheit;
         break;
+    default:
+    {
+        cout<<"\nScale error";
+        in.setstate(ios_base::failbit);
+        return in;}
+    }
+    Temperature P_1 = t; P_1 = convert (P_1, Kelvin);
+    if (P_1.value < 0){
+        cout<<"\nValue error(<0)";
+        in.setstate(ios_base::failbit);
+        return in;
     }
     return in;
 }
