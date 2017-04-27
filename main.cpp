@@ -4,37 +4,8 @@
 #include <cassert>
 using namespace std;
 
-enum Scale
-    {
-      Kelvin,
-      Celsiy,
-      Farenheit
-    };
+#include "temperature.h"
 
-struct Temperature
-    {
-        double value;
-        Scale scale;
-    };
-
-istream& operator >> (istream& in, Temperature& t)
-{
-    in >> t.value;
-    char symbol;
-    in >> symbol;
-    switch (symbol) {
-    case 'K' :
-        t.scale = Kelvin;
-        break;
-    case 'C' :
-        t.scale = Celsiy;
-        break;
-    case 'F' :
-        t.scale = Farenheit;
-        break;
-    }
-    return in;
-};
 
 void test_temperature_input ()
 {
@@ -62,48 +33,6 @@ void test_temperature_input ()
     //проверить значение шкалы
     assert (result.value == 46);
     assert (result.scale == Celsiy);
-}
-
-Temperature convert (const Temperature& t, Scale scale)
-    {double k;
-        switch (t.scale) {
-        case Kelvin :
-            k = t.value;
-            break;
-        case Celsiy :
-            k = t.value + 273;
-            break;
-        case Farenheit :
-            k = (t.value - 32)/1.8;
-            break;
-        }
-        Temperature result;
-        result.scale = scale;
-        switch (scale)
-        {
-        case Kelvin :
-            result.value = k;
-            break;
-        case Celsiy :
-            result.value = k + 273;
-            break;
-        case Farenheit :
-            result.value = 1.8*k + 32;
-            break;
-        }
-        return result;
-    }
-
-bool operator < (Temperature t1, Temperature t2) //истина t1<t2, ложь t1>=t2
-{
-    t1 = convert(t2,t1.scale);
-    return t1.value < t2.value;
-}
-
-bool operator > (Temperature t1, Temperature t2) //истина t1>t2, ложь t1<=t2
-{
-    t1 = convert(t2,t1.scale);
-    return t1.value > t2.value;
 }
 
 int
@@ -158,7 +87,7 @@ main() {
         if (count > max_count) {
             max_count = count;
         }
-    }
+    };
     const bool scaling_needed = max_count > chart_width;
 
     for (size_t count : counts) {
