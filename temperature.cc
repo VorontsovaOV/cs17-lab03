@@ -22,6 +22,7 @@ istream& operator >> (istream& in, Temperature& t)
       return in;
     }
     */
+    //преобразование, вводимой букве ставится в соответствие нужная шкала
     switch (symbol) {
     case 'K' :
         t.scale = Kelvin;
@@ -38,6 +39,7 @@ istream& operator >> (istream& in, Temperature& t)
         in.setstate(ios_base::failbit);
         return in;}
     }
+    //на тот случай, если температура по Кельвину < 0
     Temperature P_1 = t; P_1 = convert (P_1, Kelvin);
     if (P_1.value < 0){
         cout<<"\nValue error(<0)";
@@ -47,7 +49,7 @@ istream& operator >> (istream& in, Temperature& t)
     return in;
 }
 
-
+//функция, преобразующая значение температуры в соответствии с нужной шкалой
 Temperature convert (const Temperature& t, Scale scale) {
     double k;
     switch (t.scale) {
@@ -77,6 +79,7 @@ Temperature convert (const Temperature& t, Scale scale) {
     return result;
 }
 
+//операции сравнения температур
 bool operator < (Temperature t1, Temperature t2) //истина t1<t2, ложь t1>=t2
 {
     t1 = convert(t2,t1.scale);
